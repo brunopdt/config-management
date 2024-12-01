@@ -1,8 +1,6 @@
 # Código do projeto
 
 Lista dos artefatos produzidos
-* `/.cosine`
-    * **Logs** 
 * `/api`
   * **src**: Arquivo que contem os principais códigos
   * **.gitIgnore**: Arquivo para ignorar certos arquivos
