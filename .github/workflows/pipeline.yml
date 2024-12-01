@@ -61,6 +61,10 @@ jobs:
       - name: Start Frontend
         run: cd web && npm run dev &
 
-      # Run Cypress Tests
+      # Wait for Services to Start
+      - name: Wait for Backend and Frontend
+        run: sleep 10
+
+      # Run
       - name: Run Cypress Tests
         run: cd web && npx cypress run
