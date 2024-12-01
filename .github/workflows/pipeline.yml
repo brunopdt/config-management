@@ -47,11 +47,17 @@ jobs:
         with:
           node-version: '20.11'
 
-      # Start Backend
+      # Install Dependencies and Start Backend
+      - name: Install dependencies (API)
+        run: cd api && npm ci
+
       - name: Start Backend
         run: cd api && npm run dev &
 
-      # Start Frontend
+      # Install Dependencies and Start Frontend
+      - name: Install dependencies (Frontend)
+        run: cd web && npm ci
+
       - name: Start Frontend
         run: cd web && npm run dev &
 
