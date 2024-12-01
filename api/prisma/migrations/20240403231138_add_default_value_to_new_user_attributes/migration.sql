@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "bio" SET DEFAULT '',
+ALTER COLUMN "instagram" SET DEFAULT '',
+ALTER COLUMN "profilePicture" SET DEFAULT '',
+ALTER COLUMN "tiktok" SET DEFAULT '',
+ALTER COLUMN "twitter" SET DEFAULT '';

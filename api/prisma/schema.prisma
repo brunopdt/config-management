@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum FriendRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id             Int     @id @default(autoincrement())
+  email          String  @unique
+  password       String
+  name           String
+  username       String  @unique
+  bio            String?
+  instagram      String?
+  tiktok         String?
+  twitter        String?
+  profilePicture String?
+  code           String?
+
+  FriendRequestsSent     FriendRequest[] @relation("sender")
+  FriendRequestsReceived FriendRequest[] @relation("receiver")
+  Friendship             Friendship[]    @relation("userId1")
+  Friendship2            Friendship[]    @relation("userId2")
+  userPlace              UserPlace[]
+  userEvent              UserEvent[]
+}
+
+model FriendRequest {
+  id       Int                 @id @default(autoincrement())
+  userId   Int
+  friendId Int
+  status   FriendRequestStatus @default(PENDING)
+
+  User   User @relation("sender", fields: [userId], references: [id])
+  Friend User @relation("receiver", fields: [friendId], references: [id])
+}
+
+model UserPlace {
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  placeId Int
+  Place   Place @relation(fields: [placeId], references: [id])
+  User    User  @relation(fields: [userId], references: [id])
+}
+
+model Friendship {
+  id      Int @id @default(autoincrement())
+  userId  Int
+  userId2 Int
+
+  User  User @relation("userId1", fields: [userId], references: [id])
+  User2 User @relation("userId2", fields: [userId2], references: [id])
+
+  @@unique([userId, userId2])
+}
+
+model Admin {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  name     String
+  code     String?
+}
+
+model Event {
+  id       Int      @id @default(autoincrement())
+  name     String
+  date     DateTime
+  duration String?
+  fullDay  Boolean  @default(false)
+  placeId  Int
+  userEvent UserEvent[]
+
+  Place Place @relation(fields: [placeId], references: [id])
+}
+
+model Place {
+  id        Int         @id @default(autoincrement())
+  name      String
+  latitude  Float
+  longitude Float
+  Event     Event[]
+  userPlace UserPlace[]
+}
+
+model UserEvent {
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  eventId Int
+  User    User  @relation(fields: [userId], references: [id])
+  Event   Event @relation(fields: [eventId], references: [id])
+}
