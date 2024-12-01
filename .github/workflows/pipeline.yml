@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.11'
+          node-version: '16' # Adjust based on your project's Node.js version
 
       # Build API
       - name: Install dependencies (API)
@@ -42,11 +42,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.11'
+          node-version: '16'
 
       # Test API
+      - name: Install dependencies for API tests
+        run: cd api && npm ci
+
       - name: Test API
         run: cd api && npm run test
+
+      # Test Frontend
+      - name: Install dependencies for Frontend tests
+        run: cd web && npm ci
+
+      - name: Test Frontend
+        run: cd web && npm run test
 
   deploy:
     runs-on: ubuntu-latest
